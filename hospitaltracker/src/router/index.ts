@@ -77,7 +77,12 @@ const routes: RouteConfig[] = [
     path: '/register',
     name: 'registerUser',
     component: () => import(/* webpackChunkName: "register" */ '@/views/user/Register.vue'),
-  }
+  },
+  {
+    path: '',
+    name: 'default',
+    component: () => import(/* webpackChunkName: "login" */ '@/views/user/Login.vue'),
+  },
 ];
 const router = new VueRouter({
   routes,

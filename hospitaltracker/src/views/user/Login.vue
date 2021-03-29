@@ -12,7 +12,7 @@
                         <label for="exampleInputPassword1">Password</label>
                         <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
                     </div>
-                    <button @click="loadDashbord()" type="submit" class="btn btn-primary btn-block">Submit</button>
+                    <button @click="loadDashbord()" type="button" class="btn btn-primary btn-block">Submit</button>
                 </form>
             </section>
         </section>
