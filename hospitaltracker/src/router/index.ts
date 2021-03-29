@@ -21,6 +21,11 @@ const routes: RouteConfig[] = [
         component: () => import(/* webpackChunkName: "patientDetail" */ '@/views/patients/Readonly/Profile.vue'),
       },
       {
+        path: 'addEditPatient/:id',
+        name: 'addEditPatient',
+        component: () => import(/* webpackChunkName: "addEditPatient" */ '@/views/patients/AddEditPatient/AddEditPatients.vue'),
+      },
+      {
         path: 'doctor',
         name: 'doctor',
         component: () => import(/* webpackChunkName: "doctor" */ '@/views/Doctor/Doctor.vue'),
@@ -46,7 +51,7 @@ const routes: RouteConfig[] = [
         component: () => import(/* webpackChunkName: "services" */ '@/views/ServiceProvided/Readonly/ServicesReadonly.vue'),
       },
       {
-        path: 'addEditService/id',
+        path: 'addEditService/:id',
         name: 'addEditService',
         component: () => import(/* webpackChunkName: "addEditService" */ '@/views/ServiceProvided/AddEditService/AddEditService.vue'),
       },

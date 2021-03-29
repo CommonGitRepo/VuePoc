@@ -1,4 +1,10 @@
 <template>
+    <section>
+         <section>
+            <div class="float-right mb-2">
+                <router-link to="/dashboard/addEditService/0">Create</router-link>
+            </div>
+        </section>
     <table class="table">
         <thead class="thead-dark">
             <tr>
@@ -28,4 +34,5 @@
 
         </tbody>
     </table>
+    </section>
 </template>
