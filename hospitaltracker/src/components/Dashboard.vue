@@ -20,6 +20,6 @@ import Navbar from '@/components/Navbar.vue';
   },
 })
 export default class Dashboard extends Vue{
-    
+
 }
 </script>

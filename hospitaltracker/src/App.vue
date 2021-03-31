@@ -1,27 +1,14 @@
 <template>
   <div id="app">
-   <!-- <Navbar></Navbar>
-   <div class="container-fluid"> 
-     <div class="row">
-      <LeftNavbar></LeftNavbar>
-       <main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-4 content">
-        
-       </main>
-     </div>
-   </div> -->
    <router-view></router-view>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import  LeftNavbar  from '@/components/LeftNavbar.vue'
-import Navbar from '@/components/Navbar.vue';
 
 @Component({
-  components: {
-    LeftNavbar,Navbar
-  },
+
 })
 export default class App extends Vue {}
 

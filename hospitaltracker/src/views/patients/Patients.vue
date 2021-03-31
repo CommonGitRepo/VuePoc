@@ -8,26 +8,63 @@
         <table class="table">
             <thead class="thead-dark">
                 <tr>
-                <th scope="col">Id</th>
+                <th scope="col"></th>
                 <th scope="col">Full Name</th>
-                <th scope="col">Address</th>
                 <th scope="col">Admitted On</th>
-                <th scope="col">Status</th>
-                <th scope="col">Bill Status</th>
+                <th scope="col">IsDischared</th>
+                <th scope="col">Services</th>
+                <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>
-                        <router-link to="/dashboard/patient/1">Rakesh Singh</router-link>
+                <tr v-for="item in patients">
+                    <td scope="col">
+                        <img :src="item.image" width="100" height="100">
                     </td>
-                    <td>Nandanwan</td>
-                    <td>22 June 2020</td>
-                    <td>Admitted</td>
-                    <td>In Progress</td>
+                    <td>
+                        <router-link :to="{ path:'/dashboard/patient/'+item.id}">{{item.firstName}} {{item.lastName}}</router-link>
+                    </td>
+                    <td>{{item.admittedDate}}</td>
+                    <td>{{item.isDischarged ? "Yes":"No"}}</td>
+                    <td>
+                        <div v-for="innerItem in item.services">
+                            {{innerItem}}
+                        </div>
+                    </td>
+                    <td>
+                        <Modal></Modal>
+                    </td>
                 </tr>
             </tbody>
         </table>
     </section>
 </template>
+<script lang="ts">
+import { Vue, Component} from 'vue-property-decorator'
+import { Patient } from '../../store/models'
+import { PatientService } from '../../store/service/patient-service';
+import Modal from '@/components/Modal.vue';
+
+
+@Component({
+    components:{Modal,}
+})
+export default class PatientView extends Vue {
+    patients:Patient [] = [];
+
+    async created() {
+   
+        await PatientService.getPatients()
+        .then((e)=> {
+
+            this.patients = (e) as  Patient []
+            console.log(this.patients);
+            const count = this.patients.filter(x=>!x.isDischarged).length;
+            this.$root.$emit("patientCount",count);
+            
+        })
+    }
+
+}
+
+</script>
