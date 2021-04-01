@@ -38,7 +38,7 @@
        <ValidationProvider rules="required" name="Admitted Date">
         <b-form-group slot-scope="{ valid, errors }" label="Admitted Date">
             <b-form-input
-              type="text"
+              type="date"
                :state="errors[0] ? false : (valid ? true : null)"
               v-model="patient.admittedDate"
               placeholder="Enter admitted date">
@@ -115,7 +115,7 @@
         </b-form-group>
         </ValidationProvider>
 
-        <ValidationProvider rules="required" name="IsBillPaied">
+        <!-- <ValidationProvider rules="required" name="IsBillPaied">
           <b-form-group slot-scope="{ valid, errors }" label="Is Bill Paied ?">
             <b-form-radio-group
               :state="errors[0] ? false : (valid ? true : null)" 
@@ -130,9 +130,8 @@
           <b-form-invalid-feedback>
               {{ errors[0] }}
             </b-form-invalid-feedback>
-        </ValidationProvider>
-
-
+        </ValidationProvider> -->
+       
 
       <b-button block type="submit" variant="primary">Submit</b-button>
     </b-form>
@@ -152,14 +151,14 @@ export default class PatientView extends Vue
     show:boolean=true;
     imageFile:File= null;
     uploadedImageToShow = '';
-    optionsRadio:[] = [
-    {
-        text:"Yes",value:true,
+    // optionsRadio:[] = [
+    // {
+    //     text:"Yes",value:true,
 
-    },
-    {
-      text:"Yes",value:true,
-    }]
+    // },
+    // {
+    //   text:"Yes",value:true,
+    // }]
 
     backToPath:string='/dashboard'
 
@@ -168,7 +167,6 @@ export default class PatientView extends Vue
       firstName : '',
       lastName : '',
       type : '',
-      admittedDate : '',
       isDischarged : false,
       bedNo : '',
       services : [],

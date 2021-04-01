@@ -70,7 +70,8 @@ export default class ProfileView extends Vue {
       isDischarged : false,
       bedNo : '',
       services : [],
-      image : ''
+      image : '',
+	  isBillPaied:null
 
       };
 

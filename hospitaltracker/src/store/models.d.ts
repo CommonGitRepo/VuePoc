@@ -11,7 +11,7 @@ export interface Patient {
     firstName: string;
     lastName: string;
     type: string;
-    admittedDate: string;
+    admittedDate: Date;
     isDischarged: boolean;
     bedNo: string;
     services?: [] | null;

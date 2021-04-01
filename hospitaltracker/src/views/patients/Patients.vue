@@ -1,6 +1,6 @@
 <template>
     <section>
-         <section>
+         <section v-if="optionsValues">
              <b-form-select @change="filterGrid()" v-model="filterValue" :options="optionsValues" class="w-20">
 
              </b-form-select>
