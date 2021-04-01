@@ -1,8 +1,12 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
 import Dashboard from '@/components/Dashboard.vue';
+import Billing from '../views/Billing/Billing.vue';
 
 Vue.use(VueRouter);
+
+const patientRoute = () => import(/* webpackChunkName: "patientDetail" */ '@/views/patients/Readonly/Profile.vue');
+const billingRoute = () => import(/* webpackChunkName: "bill" */ '@/views/Billing/Billing.vue');
 
 const routes: RouteConfig[] = [
   {
@@ -18,7 +22,7 @@ const routes: RouteConfig[] = [
       {
         path: 'patient/:id',
         name: 'patientDetail',
-        component: () => import(/* webpackChunkName: "patientDetail" */ '@/views/patients/Readonly/Profile.vue'),
+        component: patientRoute
       },
       {
         path: 'addEditPatient/:id',
@@ -63,7 +67,10 @@ const routes: RouteConfig[] = [
       {
         path: 'bill/:id',
         name: 'billDetail',
-        component: () => import(/* webpackChunkName: "billDetail" */ '@/views/Billing/Readonly/BillingReadonly.vue'),
+        components:{
+          default:patientRoute,
+           helper: () => import(/* webpackChunkName: "billDetail" */ '@/views/Billing/Readonly/BillingReadonly.vue'),
+        }
       },
       {
         path: 'edit/:id',

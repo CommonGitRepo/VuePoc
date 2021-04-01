@@ -34,11 +34,17 @@
 					<td>{{patient.bedNo}}</td>
 				</tr>
 				<tr>
-					<td class="w-50"><strong>Services</strong></td>
+					<td class="w-50"><strong>Add Payment</strong></td>
 					<td>
 						<div v-for="item in patient.services">
 							{{item}}
 						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="w-50"><strong>Services</strong></td>
+					<td>
+						<router-link to="/dashboard/bill/1">Payment Link</router-link>
 					</td>
 				</tr>
 			</tbody>

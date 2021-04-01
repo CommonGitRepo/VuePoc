@@ -1,6 +1,9 @@
 <template>
     <section>
          <section>
+             <b-form-select @change="filterGrid()" v-model="filterValue" :options="optionsValues" class="w-20">
+
+             </b-form-select>
             <div class="float-right mb-2">
                 <router-link to="/dashboard/addEditPatient/0">Create</router-link>
             </div>
@@ -17,7 +20,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="item in patients">
+                <tr v-for="item in filteredList">
                     <td scope="col">
                         <img :src="item.image" width="100" height="100">
                     </td>
@@ -51,13 +54,26 @@ import Modal from '@/components/Modal.vue';
 })
 export default class PatientView extends Vue {
     patients:Patient [] = [];
+    filteredList :Patient[] = [];
+    filterValue:string='true';
+    optionsValues:[]=[
+        {value:'true',text:'Active'},
+        {value:'false',text:'Discharged'},
+        {value:'',text:'All'}
+    ]
 
+    filterGrid(){
+
+        console.log(this.filterValue);
+        this.filteredList = this.patients.filter(x=>(!x.isDischarged)+'' == this.filterValue || this.filterValue == '');
+    }
     async created() {
    
         await PatientService.getPatients()
         .then((e)=> {
 
             this.patients = (e) as  Patient []
+            this.filteredList = this.patients.filter(x=>!x.isDischarged);
             console.log(this.patients);
             const count = this.patients.filter(x=>!x.isDischarged).length;
             this.$root.$emit("patientCount",count);

@@ -5,6 +5,7 @@
       <LeftNavbar></LeftNavbar>
        <main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-4 content">
         <router-view></router-view>
+        <router-view name="helper"></router-view>
        </main>
      </div>
    </div>

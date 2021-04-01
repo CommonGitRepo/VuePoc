@@ -16,5 +16,6 @@ export interface Patient {
     bedNo: string;
     services?: [] | null;
     image:string;
+    isBillPaied:boolean?
   }
   

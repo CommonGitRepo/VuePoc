@@ -5,6 +5,7 @@
          	   <router-link :to="{ path:backToPath}">Cancel</router-link>
           </div>
       <h2>Patient Details</h2>
+      <b-img class="float-right" v-if="uploadedImageToShow"  :src="uploadedImageToShow" fluid alt="Fluid image"></b-img>
   </section>
 <ValidationObserver ref="observer">
     <b-form class="w-50" slot-scope="{ validate }" @submit.stop.prevent="validate().then(handleSubmit)" v-if="patient">
@@ -98,19 +99,41 @@
           </b-form-invalid-feedback>
         </b-form-group>
       </ValidationProvider>
-      <ValidationProvider rules="required|ext:png" name="Image">
+      <ValidationProvider rules="required|ext:png|dimensions:65,65" name="Image">
         <b-form-group slot-scope="{ valid, errors }" label="Upload Image">
             <b-form-file
               type="text"
                :state="errors[0] ? false : (valid ? true : null)"
               v-model="imageFile"
-              placeholder="select image">
+              placeholder="select image"
+              @change="showImage"
+              >
             </b-form-file>
             <b-form-invalid-feedback>
               {{ errors[0] }}
             </b-form-invalid-feedback>
         </b-form-group>
         </ValidationProvider>
+
+        <ValidationProvider rules="required" name="IsBillPaied">
+          <b-form-group slot-scope="{ valid, errors }" label="Is Bill Paied ?">
+            <b-form-radio-group
+              :state="errors[0] ? false : (valid ? true : null)" 
+              v-model="patient.isBillPaied"
+              :options="optionsRadio"
+              value-field="text"
+              text-field="value"
+              >
+           </b-form-radio-group>
+          </b-form-group>
+          
+          <b-form-invalid-feedback>
+              {{ errors[0] }}
+            </b-form-invalid-feedback>
+        </ValidationProvider>
+
+
+
       <b-button block type="submit" variant="primary">Submit</b-button>
     </b-form>
     </ValidationObserver>
@@ -119,15 +142,27 @@
 <script lang="ts">
 import { Vue, Component} from 'vue-property-decorator'
 import { Patient } from '../../../store/models';
-import { ValidationObserver, ValidationProvider } from 'vee-validate';
+import { ValidationObserver, ValidationProvider,localize } from 'vee-validate';
 import { PatientService } from '../../../store/service/patient-service';
 
 
 @Component({})
-export default class PatientView extends Vue {
+export default class PatientView extends Vue 
+{
     show:boolean=true;
     imageFile:File= null;
+    uploadedImageToShow = '';
+    optionsRadio:[] = [
+    {
+        text:"Yes",value:true,
+
+    },
+    {
+      text:"Yes",value:true,
+    }]
+
     backToPath:string='/dashboard'
+
     patient :  Patient = {
       id:'',
       firstName : '',
@@ -137,9 +172,43 @@ export default class PatientView extends Vue {
       isDischarged : false,
       bedNo : '',
       services : [],
-      image : ''
+      image : '',
+      isBillPaied : null
 
     };
+
+     formCustomMessage()
+      {
+
+        const dict = {
+            en: {
+              fields: {
+                FirstName: {
+                  required: 'First Name cannot be empty!',
+                },
+                LastName: {
+                  required: 'First Name cannot be empty!',
+                },
+                Type: {
+                  required: 'Please select type',
+                },
+                Image: {
+                  dimensions: 'Dimention of image should be 65 X 65',
+                }
+              }
+            }
+          }
+        localize(dict);
+      }
+
+    showImage(e:any){
+      console.log(e.srcElement.files[0]);
+      this.getBase64(e.srcElement.files[0])
+        .then(data=>{
+          this.uploadedImageToShow = data as string;
+        });
+    }
+
     handleSubmit(isValid:any){
        const id = this.$route.params.id;
         if(!isValid)
@@ -166,10 +235,9 @@ export default class PatientView extends Vue {
         reader.readAsDataURL(file);
         reader.onload = () => resolve(reader.result);
         reader.onerror = error => reject(error);
-  });
-}
-
-    async created() {
+      });
+    }
+  async created() {
         const id = this.$route.params.id
         if(id != "0"){
           PatientService.getPatientsById(id)
@@ -178,9 +246,8 @@ export default class PatientView extends Vue {
               this.backToPath = '/dashboard/patient/'+id
             })
         }
+        this.formCustomMessage();
   }
-
-   
 
 }
 </script>
